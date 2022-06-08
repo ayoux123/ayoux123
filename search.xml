@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>玄学解决Github无法访问或访问慢的问题</title>
+      <link href="/article/d2573f87.html"/>
+      <url>/article/d2573f87.html</url>
+      
+        <content type="html"><![CDATA[<h2 id="问题解析">问题解析</h2><p>ping一下GitHub的官网，我们发现数据直接丢失，所以导致网页打不开或者很慢的情况。</p><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110241151034.png" alt=""></p><p>我们先来回顾下DNS域名访问的过程：<br>参考：<a href="https://www.axyo.cn/article/e996a9fb.html">DNS域名访问的过程</a></p><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110241309740.png" alt=""></p><p>​    GitHub服务器在国外，进行第三步以下的过程中所需的时间会很长，一些浏览器会自动清理缓存，所以我们可以从第二步着手，让访问github.com域名时浏览器解析的过程止步于第二步。</p><h2 id="具体步骤">具体步骤</h2><h4 id="第一步">第一步</h4><p>先打开：<a href="http://tool.chinaz.com/">http://tool.chinaz.com/</a><br><a href="http://xn--github-vr6my40a.com">检测github.com</a></p><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110241313115.png" alt=""></p><p>我们发现，台湾中华电信[海外]对应的IP值52.192.72.89所对应的TTL值最小，即延迟最小相应速度最快。</p><h4 id="第二步">第二步</h4><p>修改hosts文件，一般他的路劲为<br>C:\Windows\System32\drivers\etc</p><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110241317978.png" alt=""></p><p>记事本方式打开hosts，添加刚刚查询到的IP地址，<strong>后面记得加上对应的网址</strong>，如</p><p>52.192.72.89 <a href="http://github.com">github.com</a></p><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110241321214.png" alt=""></p><p>此时打开GitHub官网就会变快啦！</p><h4 id="第三步">第三步</h4><p>操作GitHub时，经常使用的站点同理，本人添加的为（#开头代表所在行注释）</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">151.101.44.249 github.global.ssl.fastly.net</span><br><span class="line">103.245.222.133 assets-cdn.github.com</span><br><span class="line">23.235.47.133 assets-cdn.github.com</span><br><span class="line">203.208.39.104 assets-cdn.github.com</span><br><span class="line">204.232.175.78 documentcloud.github.com</span><br><span class="line">204.232.175.94 gist.github.com</span><br><span class="line">107.21.116.220 help.github.com</span><br><span class="line">207.97.227.252 nodeload.github.com</span><br><span class="line">199.27.76.130 raw.github.com</span><br><span class="line">107.22.3.110 status.github.com</span><br><span class="line">204.232.175.78 training.github.com</span><br><span class="line">207.97.227.243 www.github.com</span><br><span class="line">185.31.16.184 github.global.ssl.fastly.net</span><br><span class="line">185.31.18.133 avatars0.githubusercontent.com</span><br><span class="line">185.31.19.133 avatars1.githubusercontent.com</span><br><span class="line">52.193.111.178 codeload.github.com</span><br><span class="line">18.179.245.253 api.github.com</span><br><span class="line">#以下三个Ip是我查询到经常出现的IP，如需使用删除IP前的#号即可</span><br><span class="line">#13.114.40.48 github.com</span><br><span class="line">#52.69.186.44 github.com</span><br><span class="line">#52.192.72.89 github.com</span><br></pre></td></tr></table></figure><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110241327659.png" alt=""></p><p>这时候就可以舒畅的玩GitHub了！</p><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110241342697.png" alt=""></p><p>在这里补充一下，建议使用谷歌浏览器访问GitHub<br>注意<br>1、因为这方式经常会被黑客利用，所以电脑安装的杀毒软件很有可能会报病毒，这时候只需要把这部分添加到信任区即可。</p><p>2、若某天访问GitHub的时候发现再次变慢了，再次进行上述操作，更新网址对应的IP地址</p><p>3、若某一天打开GitHub还是感觉很慢，更新了上述ip地址也没有，就可以在刷新一下dns缓存</p><p>方法：<br>在cmd中输入 ipconfig/flushdns</p><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110241344133.png" alt=""></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> github </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>域名解析全过程</title>
+      <link href="/article/e996a9fb.html"/>
+      <url>/article/e996a9fb.html</url>
+      
+        <content type="html"><![CDATA[<h2 id="域名解析全过程">域名解析全过程</h2><p>域名就是浏览器访问网站地址栏输入的网址，如访问网易时<a href="https://www.163.com/">www.163.com</a>。<br>想要访问网站，就要找到网站服务器的ip地址，域名和ip地址是对应关系，所以域名解析的过程就是通过域名找到对应的ip地址。</p><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110241222732.jpg" alt="在这里插入图片描述"></p><p>这个域名解析的过程可以分为十步，如果在当前步骤查询到域名对应的ip地址就不会继续后面的步骤：</p><p>1.浏览器搜索自己的DNS（Domain Name System，域名系统）缓存。</p><p>2.搜索操作系统中的DNS，如内存中的DNS缓存或者本地的hosts文件（Windows环境下，维护一张域名与IP地址的对应表，位置一般在 C:\Windows\System32\drivers\etc\hosts）</p><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110241225400.png" alt="在这里插入图片描述"><br>3.使用递归查询的方式查询本地域名解析服务器，该服务器地址可以通过手动设置，未设置则使用路由器中本地DNS地址。</p><p>4.本地域名服务器采用迭代查询的方式。</p><ol><li>向根域名服务器（其虽然没有每个域名的具体信息，但存储了负责每个域，如com、net、org等的解析的顶级域名服务器的地址）查找，根域名服务器返回com域的顶级域名服务器的地址。</li><li>本地域名服务器 向com域的顶级域名服务器发起请求，返回163.com权限域名服务器（权限域名服务器，用来保存该区中的所有主机域名到IP地址的映射）地址</li><li>本地域名服务器 向163.com权限域名服务器发起请求，得到<a href="https://www.163.com/">www.163.com</a>的IP地址</li></ol><p>5.本地域名服务器 将得到的IP地址返回给操作系统，同时自己也将IP地址缓存起来。</p><p>6.操作系统将 IP 地址返回给浏览器，同时自己也将IP地址缓存起来。</p><p>7.至此，浏览器已经得到了域名对应的IP地址</p><p><strong>递归查询和迭代查询的区别：</strong></p><ul><li>递归查询是一种DNS 服务器的查询模式，在该模式下DNS 服务器接收到客户机请求，必须使用一个<strong>准确的查询结果</strong>回复客户机。如果DNS服务器本地没有存储查询DNS 信息，那么该服务器会询问其他服务器，并将返回的查询结果提交给客户机。</li><li>迭代查询DNS 服务器另外一种查询方式为迭代查询，DNS 服务器会向客户机提供其他能够解析查询请求的DNS服务器地址，当客户机发送查询请求时，DNS 服务器并不直接回复查询结果，而是告诉客户机另一台DNS 服务器地址，客户机再向这台DNS服务器提交请求，依次循环直到返回查询的结果。</li></ul><p><strong>本文转载自CSDN-博主<a href="https://blog.csdn.net/m0_50654102">冲冲冲冲冲冲！！！</a></strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 技术分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 域名 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>分享一下自用的看漫画软件</title>
+      <link href="/article/f339ac6b.html"/>
+      <url>/article/f339ac6b.html</url>
+      
+        <content type="html"><![CDATA[<hr><h3 id="第一款：漫客栈">第一款：漫客栈</h3><p>这款软件呢，分享的这个是老版本，可能会存在闪退、抽风看不了等bug。这是来自耗子大佬的修改版本，可以看付费、VIP漫画。</p><div class="fj-gallery"><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110201705127.webp" alt=""></p><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110201706670.webp" alt=""></p><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110201706927.webp" alt=""></p>          </div><h3 id="第二款：小小追书">第二款：小小追书</h3><p>这款软件呢，是我一个同学推荐给我的，可以登录账号同步漫画书籍，也不需要开通会员和付费，就是有点小广告，着实让人难受啊。</p><div class="fj-gallery"><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110201707461.webp" alt=""></p><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110201708864.webp" alt=""></p><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110201708519.webp" alt=""></p>          </div><h3 id="第三款：全是漫画">第三款：全是漫画</h3><p>这是某位大佬的娱乐网看到的，全是漫画应该是整合了一下漫画网站的搜索引擎，前两个软件搜索不到的，可以到这个软件上搜索看看。</p><div class="fj-gallery"><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110201709712.webp" alt=""></p><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110201709109.webp" alt=""></p><p><img src="https://ayouo.coding.net/p/wh/d/other/git/raw/master/pic/202110201710911.webp" alt=""></p>          </div><hr><h3 id="下载链接"><em><strong>下载链接</strong></em></h3><a class="btn-beautify purple larger" href="https://wwi.lanzoui.com/b00oskzwf"   title="密码：xiaoyou"><i class="far fa-hand-point-right"></i><span>密码：xiaoyou</span></a>]]></content>
+      
+      
+      <categories>
+          
+          <category> 软件分享 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 漫画软件 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
